@@ -1,0 +1,6 @@
+1. Hash together with the key. Then I only need to store the value form the hash. A key need to be providen as a string "applebean123" to encrypt it.
+
+
+
+
+
