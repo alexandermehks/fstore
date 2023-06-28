@@ -3,12 +3,15 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
-pub fn list_all_store(user: String) {
+use crate::Action;
 
-    let store_path = format!("/home/{}/.store/", user);
-    let paths = fs::read_dir(store_path).unwrap();
+pub fn list_all_store(action: Action) {
+    let paths = fs::read_dir(action.store_path).unwrap();
     for path in paths {
-        let free_path = path.unwrap().path().display().to_string();
+        let free_path = path.unwrap()
+            .path()
+            .display()
+            .to_string();
         let striped: Vec<&str> = free_path.split('/').collect();
         println!("{} {}", striped.last().unwrap().trim_end_matches(".json"), read_file_content(&free_path));
     }

@@ -2,38 +2,42 @@ use std::fs;
 use std::io;
 use std::process;
 
-pub fn delete_store_object(args: &Vec<String>, user: String) {
-    if args.len() == 3 {
-        match delete(&args[2], user) {
-            Ok("ok") => {
-                println!("{} deleted", args[2]);
-                process::exit(1);
-            }
-            Err("error") => {
-                eprintln!("store {} dont exists", args[2]);
-                process::exit(0);
-            }
-            _ => (),
-        }
-        // Dont need this, but borrow checker wants to make sure i dont reuse user.
-        process::exit(0);
-    };
+use crate::Action;
 
-    let mut name_holder = String::new();
-    println!("What store to delete?");
-    io::stdin().read_line(&mut name_holder).unwrap();
-    name_holder = name_holder.trim().to_string();
-    match delete(&name_holder, user) {
-        Ok("ok") => println!("{} deleted", name_holder),
-        Err("error") => eprintln!("store {} dont exists", name_holder),
-        _ => (),
-    }
+enum Error {
+    DontExistError,
 }
 
-fn delete(filename: &String, user: String) -> Result<&str, &str> {
-    let path = format!("/home/{}/.store/{}.json", user, filename);
+pub fn delete_store_object(action: Action) {
+    match action.args.len() {
+        3 => match delete(None, action) {
+            Ok(_) => println!("deleted"),
+            Err(_) => eprintln!("store dont exists"),
+        },
+        _ => {
+            let mut name_buffer = String::new();
+            println!("What store to delete?");
+
+            io::stdin().read_line(&mut name_buffer).unwrap();
+            name_buffer = name_buffer.trim().to_string();
+
+            match delete(Some(&name_buffer), action) {
+                Ok(_) => println!("{} deleted", name_buffer),
+                Err(_) => eprintln!("store dont exists"),
+            }
+        }
+    }
+    process::exit(0)
+}
+
+fn delete(filename: Option<&String>, action: Action) -> Result<(), Error> {
+    let filename = match filename {
+        Some(name) => name,
+        None => &action.args[2],
+    };
+    let path = format!("{}/{}.json", action.store_path, filename);
     match fs::remove_file(path) {
-        Ok(_) => Ok("ok"),
-        Err(_) => Err("error"),
+        Ok(_) => Ok(()),
+        Err(_) => Err(Error::DontExistError),
     }
 }

@@ -3,6 +3,26 @@ pub mod store;
 use std::env;
 use std::process;
 
+
+
+#[derive(Debug)]
+pub struct Action {
+    user: String,
+    store_path: String,
+    args: Vec<String>,
+
+
+}
+
+#[derive(Debug)]
+enum Procedure {
+    New,
+    Get,
+    Set,
+    Delete,
+    List,
+}
+
 fn help() {
     let string = "
 Usage: store [OPTION]...
@@ -36,25 +56,22 @@ Usage: store [OPTION]...
 
 }
 
-#[derive(Debug)]
-enum Procedure {
-    New,
-    Get,
-    Set,
-    Delete,
-    List,
-}
 
 fn main() {
-    let user_using_process = current_user();
-    store::init::init_store(&user_using_process);
-    let args: Vec<String> = env::args().collect();
-    if args.len() == 1 {
+    let action = Action {
+        user: current_user(),
+        store_path: format!("/home/{}/.store", current_user()),
+        args: env::args().collect(),
+    };
+
+
+    store::init::init_store(&action.user);
+    if action.args.len() == 1 {
         help();
         process::exit(0);
     }
 
-    let argv = match args[1].to_lowercase().as_str() {
+    let argv = match action.args[1].to_lowercase().as_str() {
         "new" => Procedure::New,
         "get" => Procedure::Get,
         "delete" => Procedure::Delete,
@@ -69,19 +86,20 @@ fn main() {
 
     match argv {
         Procedure::New => {
-            store::create::create_new_store_object(&args, user_using_process);
-        }
+            store::create::create_new_store_object(action);
+        },
         Procedure::Get => {
-            store::get::get_item(&args, user_using_process);
-        }
-        Procedure::Delete => {
-            store::delete::delete_store_object(&args, user_using_process);
-        }
+            //store::get::get_item(&args, user_using_process);
+            store::get::get_item(action);
+        },
         Procedure::List => {
-            store::list::list_all_store(user_using_process);
+            store::list::list_all_store(action);
+        },
+        Procedure::Delete => {
+            store::delete::delete_store_object(action);
         }
         Procedure::Set => {
-            store::set::set(&args, user_using_process);
+            store::set::set(&action.args, action.user);
         }
     }
 }

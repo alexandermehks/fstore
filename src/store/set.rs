@@ -19,6 +19,10 @@ fn exists(mut content: String, key: &str, value: &str) -> (String, bool) {
 
 pub fn set(args: &Vec<String>, user: String) {
     // If all arguments that are needed are provided
+    if args.len() > 4 {
+        println!("malformed argument, aborting");
+        process::exit(0);
+    }
     let mut content = String::new();
     if args.len() == 4 {
         let split = args[3].split("=");
