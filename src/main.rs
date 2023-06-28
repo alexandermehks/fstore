@@ -1,9 +1,8 @@
-pub mod store;
-
 use std::env;
 use std::process;
 
-
+mod actions;
+mod init;
 
 #[derive(Debug)]
 pub struct Action {
@@ -51,11 +50,7 @@ Usage: store [OPTION]...
         ";
 
     println!("{}", string);
-
-
-
 }
-
 
 fn main() {
     let action = Action {
@@ -65,7 +60,7 @@ fn main() {
     };
 
 
-    store::init::init_store(&action.user);
+    init::init_store(&action.user);
     if action.args.len() == 1 {
         help();
         process::exit(0);
@@ -86,20 +81,20 @@ fn main() {
 
     match argv {
         Procedure::New => {
-            store::create::create_new_store_object(action);
+            actions::create::create_new_store_object(action);
         },
         Procedure::Get => {
             //store::get::get_item(&args, user_using_process);
-            store::get::get_item(action);
+            actions::get::get_item(action);
         },
         Procedure::List => {
-            store::list::list_all_store(action);
+            actions::list::list_all_store(action);
         },
         Procedure::Delete => {
-            store::delete::delete_store_object(action);
+            actions::delete::delete_store_object(action);
         }
         Procedure::Set => {
-            store::set::set(&action.args, action.user);
+            actions::set::set(&action.args, action.user);
         }
     }
 }

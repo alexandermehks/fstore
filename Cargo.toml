@@ -1,5 +1,5 @@
 [package]
-name = "store"
+name = "fstore"
 version = "0.1.0"
 edition = "2021"
 
