@@ -1,32 +1,40 @@
-```bash
-$ store get
-No store object provided
+## fstore 
+
+fstore is a in filesystem key value store enabling multiple keys for same object
+
+## Introduction
+fstore is a command line infterface tool to add, edit, get and modify secrets all saved in the filesystem. 
+
+Try the [online playground](https://ast-grep.github.io/playground.html) for a taste!
+
+## Command line usage example
+
+fstore has following form.
+```
+fstore --action [args]
 ```
 
-```bash
-$ store list
-#### ALL OF YOUR STORES ####
+### Example
 
-secretmangos
-
-#### END  ####
-```
-
+* create a new object
 
 ```bash
-$ store set secretmangos ultimatemango impostorbanana
+fstore new objectname
 ```
 
+* add a new secret to object
 ```bash
-$ store get secretmangos
-"ultimatemango": impostorbanana
+fstore set objectname password=mypassword
 ```
 
+* get secret from object
 ```bash
-$ store get secretmangos ultimatemango
-impostorbanana
+fstore get objectname password
 ```
 
+## CLI Screenshot
 
-
-
+### Search
+| Feature | Command | Screenshot |
+| ------- | ------- | ---------- |
+| Help  | `store` | ![image](https://github.com/alexandermehks/fstore/blob/main/assets/fstore_base.png) |
