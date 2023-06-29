@@ -39,3 +39,4 @@ fstore get objectname password
 | ------- | ------- | ---------- |
 | Help  | `fstore` | ![image](https://github.com/alexandermehks/fstore/blob/main/assets/fstore_base.png) |
 | Get  | `fstore get secretmangos` | ![image](https://github.com/alexandermehks/fstore/blob/main/assets/fstore_get.png) |
+| Get  | `fstore get secretmangos ultimatemango` | ![image](https://github.com/alexandermehks/fstore/blob/main/assets/fstore_get_specific.png) |
