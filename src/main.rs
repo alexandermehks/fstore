@@ -40,6 +40,9 @@ fn main() {
         "set" => {
             actions::set::set(&action.args, action.user);
         }
+        "export" => {
+            actions::export::export()
+        }
         _ => {
             println!("Unknown argument.");
             process::exit(1)
