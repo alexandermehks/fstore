@@ -9,6 +9,10 @@ pub fn list_all_store(action: Action) {
     let paths = fs::read_dir(action.store_path).unwrap();
     for path in paths {
         let free_path = path.unwrap().path().display().to_string();
+        match free_path.ends_with(".json") {
+            true => {}
+            false => continue,
+        }
         let striped: Vec<&str> = free_path.split('/').collect();
         println!(
             "{} {}",

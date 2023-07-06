@@ -9,7 +9,7 @@ fn exists(mut content: String, key: &str, value: &str) -> (String, bool) {
         let kv: Vec<&str> = i.split(':').collect();
         if kv[0].replace('"', "") == key {
             let old = format!("{}:{}", kv[0], kv[1]);
-            let new = format!("\"{}\": {}", key, value);
+            let new = format!("{}:{}", key, value);
             content = content.replace(&old, &new);
             return (content, true);
         }
@@ -47,15 +47,15 @@ pub fn set(args: &Vec<String>, user: String) {
         file.read_to_string(&mut content)
             .expect("Failed reading the data from the file.");
 
-        content = content.replace("{ \n", "");
+        content = content.replace("{\n", "");
         content = content.replace('}', "");
         file.set_len(0).expect("someting went wrong");
         let (mut content, found) = exists(content, key, value);
 
         if !found {
-            content += &format!("\"{}\": {} \n", &key.trim(), &value.trim());
+            content += &format!("{}:{} \n", &key.trim(), &value.trim());
         }
-        file.write_all("{ \n".as_bytes())
+        file.write_all("{\n".as_bytes())
             .expect("couldnt write to file");
         file.write_all(content.as_bytes())
             .expect("couldnt write to file");
@@ -91,7 +91,7 @@ pub fn set(args: &Vec<String>, user: String) {
         content = content.replace("{ \n", "");
         content = content.replace('}', "");
         file.set_len(0).expect("someting went wrong");
-        content += &format!("\"{}\": {} \n", &key.trim(), &value.trim());
+        content += &format!("{}: {} \n", &key.trim(), &value.trim());
         file.write_all("{ \n".as_bytes())
             .expect("couldnt write to file");
         file.write_all(content.as_bytes())
