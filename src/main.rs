@@ -41,7 +41,7 @@ fn main() {
             actions::set::set(&action.args, action.user);
         }
         "export" => {
-            actions::export::export()
+            actions::export::export(action)
         }
         _ => {
             println!("Unknown argument.");
