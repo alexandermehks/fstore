@@ -27,7 +27,7 @@ pub fn set(args: &Vec<String>, user: String) {
     if args.len() == 4 {
         let split = args[3].split("=");
         let collection = split.collect::<Vec<&str>>();
-        if collection.len() != 2{
+        if collection.len() != 2 {
             println!("malformed argument, aborting");
             process::exit(0);
         }
@@ -69,11 +69,7 @@ pub fn set(args: &Vec<String>, user: String) {
         println!("What store object to add to?");
         io::stdin().read_line(&mut store_object).unwrap();
 
-        let file_path = format!(
-            "/home/{}/.store/{}.json",
-            user,
-            store_object.trim()
-        );
+        let file_path = format!("/home/{}/.store/{}.json", user, store_object.trim());
         if !Path::new(&file_path).exists() {
             eprintln!("Store object dont exists.");
             eprint!("Add it by using: store new {}", store_object);

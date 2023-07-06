@@ -12,7 +12,7 @@ pub fn init_store(user: &String) {
         welcome();
         fs::create_dir_all(store_directory_path).expect("Couldnt create file in your home folder.");
     }
-    process::exit(0);
+            process::exit(0);
 }
 
 fn welcome() {
@@ -27,4 +27,34 @@ fn welcome() {
     println!("{}", ascii_art);
     println!("You are running store for the first time.");
     println!("I will create a store directory in your home folder.");
+}
+
+pub fn help() {
+    let string = "
+Usage: store [OPTION]...
+
+    
+    new 
+        creates a new store object where you can store secrets
+        - store new vault
+
+    get
+        fetches the store and sends secrets to stdout
+        - store get vault
+        - store get vault key
+
+    delete
+        delete a store object permanently
+        - store delete vault
+    set
+        add or update a secret to a store
+        - store set vault key=value
+
+    list
+        show all stores present on your filesystem
+        - store list
+
+        ";
+
+    println!("{}", string);
 }
