@@ -29,7 +29,7 @@ pub fn export(action: Action) {
                     .expect("Unable to read file")
                     .lines()
                 {
-                    match line {
+                    match line.trim() {
                         "}" => continue,
                         "{" => continue,
                         _ => {
