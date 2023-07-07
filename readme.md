@@ -30,6 +30,11 @@ fstore set objectname password=mypassword
 fstore get objectname password
 ```
 
+* export all objects as csv
+```bash
+fstore export
+```
+
 ## CLI Screenshot
 
 ### Search
